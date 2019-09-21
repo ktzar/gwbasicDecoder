@@ -1,2 +1,2 @@
 # gwbasicDecoder
-Decoder for GWBasic programs
+Decoder for tokenised GWBasic programs in Golang

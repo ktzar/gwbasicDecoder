@@ -5,10 +5,7 @@ import "errors"
 import b "binaryutils"
 
 func ParseProgram(data []byte) (string, error) {
-	fmt.Println(b.BE16(data, 0))
-	if int(data[0]) == 0xff {
-		fmt.Println("all ok")
-	} else {
+	if int(data[0]) != 0xff {
 		return "", errors.New("Wrong header")
 	}
 
@@ -18,7 +15,7 @@ func ParseProgram(data []byte) (string, error) {
 
 	for finished == false {
 		nextLineOffset := b.BE16(data, pointer)
-		fmt.Println("Next line offset", nextLineOffset)
+		//fmt.Println("Next line offset", nextLineOffset)
 		if nextLineOffset == 0x00 {
 			finished = true
 		} else {
@@ -45,10 +42,21 @@ func decodeLine(data []byte, pointer int) (string, int) {
 			/* Two byte constant */
 			token = fmt.Sprintf("%v", b.LE16(data, pointer+1))
 			pointer += 2
+		} else if char == 0x1d {
+			/* four byte floating-point */
+			token = fmt.Sprintf("%v", b.LE32(data, pointer+1))
+			pointer += 4
 		} else if char == 0x0f {
 			/* One byte constant */
 			token = fmt.Sprintf("%v", (data[pointer+1]))
 			pointer += 1
+		} else if char == 0x0e {
+			/* Two byte line number */
+			token = fmt.Sprintf("%v", b.LE16(data, pointer+1))
+			pointer += 2
+		} else if char >= 0x11 && char <= 0x1b {
+			// 0x11 to 0x1b are numbers from 0 to 10
+			token = fmt.Sprintf("%v", (char - 0x11))
 		} else if char >= 0x20 && char <= 0x7e {
 			token = string(char)
 		} else if oneByte[char] != "" {
@@ -57,7 +65,7 @@ func decodeLine(data []byte, pointer int) (string, int) {
 			token = twoBytes[b.LE16(data, pointer)]
 			pointer += 1
 		} else {
-			fmt.Printf("Unrecognised token %x\n", char)
+			fmt.Printf("Unrecognised token 0x%x\n", char)
 		}
 		lineBuffer += token
 		pointer++
