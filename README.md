@@ -1,7 +1,7 @@
 # gwbasicDecoder
 Decoder for tokenised GWBasic programs in Golang
 
-To use:
+## Usage
 ```
 export GOPATH=`pwd`
 go build gwbasicDecoder.go
