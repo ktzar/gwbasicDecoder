@@ -61,8 +61,8 @@ func decodeLine(data []byte, pointer int) (string, int) {
 			token = string(char)
 		} else if oneByte[char] != "" {
 			token = oneByte[char]
-		} else if twoBytes[b.LE16(data, pointer)] != "" {
-			token = twoBytes[b.LE16(data, pointer)]
+		} else if char >= 0xfd {
+			token = twoBytes[b.BE16(data, pointer)]
 			pointer += 1
 		} else {
 			fmt.Printf("Unrecognised token 0x%x\n", char)
