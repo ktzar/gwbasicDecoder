@@ -10,8 +10,10 @@ import (
 
 func main() {
     var inFile string
+    var lineNumbers bool
 
     flag.StringVar(&inFile, "in", "", "File to parse (required)")
+    flag.BoolVar(&lineNumbers, "linenumbers", false, "Show line numbers")
 	flag.Parse()
 
     if inFile == "" {
@@ -26,10 +28,14 @@ func main() {
 		os.Exit(1)
 	}
 
-    script, err := gwbasicParser.ParseProgram(data)
+    program, err := gwbasicParser.ParseProgram(data)
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
 	}
-    fmt.Print(script)
+    if lineNumbers {
+        fmt.Print(program.WithLines())
+    } else {
+        fmt.Print(program)
+    }
 }
