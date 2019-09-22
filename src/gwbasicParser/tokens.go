@@ -1,5 +1,7 @@
 package gwbasicParser
 
+// From http://www.chebucto.ns.ca/~af380/GW-BASIC-tokens.html
+
 var oneByte = map[byte]string{
 	0x81: "END",
 	0x82: "FOR",
@@ -32,15 +34,15 @@ var oneByte = map[byte]string{
 	0x9D: "LPRINT",
 	0x9E: "LLIST",
 	0x9F: "(Undefined)",
-	0xA0: "á",
+	0xA0: "á", //WIDTH on docs
 	0xA1: "ELSE",
-	0xA2: "ó",
-	0xA3: "ú",
-	0xA4: "ñ",
+	0xA2: "ó", //TRON
+	0xA3: "ú", //TROFF
+	0xA4: "ñ", //SWAP
 	0xA5: "ERASE",
 	0xA6: "EDIT",
-	0xA7: "°",
-	0xA8: "¿",
+	0xA7: "°", //ERROR
+	0xA8: "¿", //RESUME
 	0xA9: "DELETE",
 	0xAA: "AUTO",
 	0xAB: "RENUM",
