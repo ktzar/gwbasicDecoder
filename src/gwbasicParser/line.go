@@ -9,9 +9,7 @@ type Line struct {
 }
 
 func decodeLine(data []byte, pointer int) (Line, int) {
-	//fmt.Printf("Decode line at pointer 0x%x \n", pointer)
 	lineNumber := b.LE16(data, pointer)
-	//fmt.Println("Line number ", lineNumber)
 	lineBuffer := ""
 	pointer += 2
 	char := data[pointer]

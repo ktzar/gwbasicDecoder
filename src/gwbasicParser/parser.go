@@ -33,7 +33,6 @@ func ParseProgram(data []byte) (Program, error) {
 
 	for finished == false {
 		nextLineOffset := b.BE16(data, pointer)
-		//fmt.Println("Next line offset", nextLineOffset)
 		if nextLineOffset == 0x00 {
 			finished = true
 		} else {
